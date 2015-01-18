@@ -216,8 +216,7 @@ function drawScene() {
 
   loadIdentity();
 
-  // Now move the drawing position a bit to where we want to start
-  // drawing the cube.
+  // Draw objects in front of the camera.
 
   mvTranslate([-0.0, 0.0, -6.0]);
 
