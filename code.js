@@ -238,38 +238,49 @@ function drawScene() {
         continue
       }
       var offset = [x, y, 0]
+
       // Save the current matrix, before drawing each object.
       mvPushMatrix();
       mvTranslate(offset);
 
-      // Draw the cube by binding the array buffer to the cube's vertices
-      // array, setting attributes, and pushing it to GL.
-
-      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesBuffer);
-      gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
-
-      // Set the colors attribute for the vertices.
-
-      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesColorBuffer);
-      gl.vertexAttribPointer(vertexColorAttribute, 4, gl.FLOAT, false, 0, 0);
-
-      // Draw the cube.
-
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVerticesIndexBuffer);
-      setMatrixUniforms();
-      gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
-
+      drawCube()
       // Restore the original matrix
-
       mvPopMatrix();
     }
   }
+
+  mvPushMatrix()
+  gl.disable(gl.DEPTH_TEST)
+  mvTranslate([2, 2, 0])
+  // drawCube()
+  gl.enable(gl.DEPTH_TEST)
+  mvPopMatrix()
 
   // Update the rotation for the next draw, if it's time to do so.
   // physics()
 
   var currentTime = (new Date).getTime();
 }
+
+drawCube = function() {
+  // Draw the cube by binding the array buffer to the cube's vertices
+  // array, setting attributes, and pushing it to GL.
+
+  gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesBuffer);
+  gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
+
+  // Set the colors attribute for the vertices.
+
+  gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesColorBuffer);
+  gl.vertexAttribPointer(vertexColorAttribute, 4, gl.FLOAT, false, 0, 0);
+
+  // Draw the cube.
+
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVerticesIndexBuffer);
+  setMatrixUniforms();
+  gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
+}
+
 
 //
 // initShaders
