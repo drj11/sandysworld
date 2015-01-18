@@ -218,7 +218,7 @@ function drawScene() {
 
   // Draw objects in front of the camera.
 
-  mvTranslate([-0.0, 0.0, -6.0]);
+  mvTranslate([0.0, -2.0, -6.0]);
 
   // Save the current matrix, then rotate before we draw.
 
