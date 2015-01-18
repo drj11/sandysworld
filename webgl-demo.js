@@ -255,15 +255,6 @@ function drawScene() {
     var delta = currentTime - lastCubeUpdateTime;
     
     cubeRotation += (30 * delta) / 1000.0;
-    cubeXOffset += xIncValue * ((30 * delta) / 1000.0);
-    cubeYOffset += yIncValue * ((30 * delta) / 1000.0);
-    cubeZOffset += zIncValue * ((30 * delta) / 1000.0);
-    
-    if (Math.abs(cubeYOffset) > 2.5) {
-      xIncValue = -xIncValue;
-      yIncValue = -yIncValue;
-      zIncValue = -zIncValue;
-    }
   }
   
   lastCubeUpdateTime = currentTime;
