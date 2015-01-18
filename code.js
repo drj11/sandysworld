@@ -220,43 +220,42 @@ function drawScene() {
 
   mvTranslate([0.0, -2.0, -8.0]);
 
-  // Save the current matrix, then rotate before we draw.
 
-  mvPushMatrix();
 
-  mvTranslate([cubeXOffset, cubeYOffset, cubeZOffset]);
+  var offsets = [[0,0,0], [1,0,0]]
+  var i
+  for(i=0; i<offsets.length; ++i) {
+      var offset = offsets[i]
+      // Save the current matrix, before drawing each object.
+      mvPushMatrix();
+      mvTranslate(offset);
 
-  // Draw the cube by binding the array buffer to the cube's vertices
-  // array, setting attributes, and pushing it to GL.
+    // Draw the cube by binding the array buffer to the cube's vertices
+    // array, setting attributes, and pushing it to GL.
 
-  gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesBuffer);
-  gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesBuffer);
+    gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
 
-  // Set the colors attribute for the vertices.
+    // Set the colors attribute for the vertices.
 
-  gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesColorBuffer);
-  gl.vertexAttribPointer(vertexColorAttribute, 4, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesColorBuffer);
+    gl.vertexAttribPointer(vertexColorAttribute, 4, gl.FLOAT, false, 0, 0);
 
-  // Draw the cube.
+    // Draw the cube.
 
-  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVerticesIndexBuffer);
-  setMatrixUniforms();
-  gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVerticesIndexBuffer);
+    setMatrixUniforms();
+    gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
 
-  // Restore the original matrix
+    // Restore the original matrix
 
-  mvPopMatrix();
-
-  // Update the rotation for the next draw, if it's time to do so.
-
-  var currentTime = (new Date).getTime();
-  if (lastCubeUpdateTime) {
-    var delta = currentTime - lastCubeUpdateTime;
-
-    cubeRotation += (30 * delta) / 1000.0;
+    mvPopMatrix();
   }
 
-  lastCubeUpdateTime = currentTime;
+  // Update the rotation for the next draw, if it's time to do so.
+  // physics()
+
+  var currentTime = (new Date).getTime();
 }
 
 //
