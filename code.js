@@ -218,7 +218,9 @@ function drawScene() {
 
   // Draw objects in front of the camera.
 
-  mvTranslate([-3.0, -2.0, -10.0]);
+  // mvTranslate([-3.0, -2.0, -10.0]);
+  var camM = makeLookAt(3, -8, 8, 3, 3, 0, 0, 0, 1)
+  multMatrix(camM)
 
 
   var theGrid = [[0, 0, 0, 0, 0, 1, 1],
