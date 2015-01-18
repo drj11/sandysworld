@@ -4,7 +4,6 @@ var gl;
 var cubeVerticesBuffer;
 var cubeVerticesColorBuffer;
 var cubeVerticesIndexBuffer;
-var cubeVerticesIndexBuffer;
 var cubeRotation = 0.0;
 var cubeXOffset = 0.0;
 var cubeYOffset = 0.0;
