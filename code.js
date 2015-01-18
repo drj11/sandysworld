@@ -33,7 +33,7 @@ function start() {
   // Only continue if WebGL is available and working
 
   if (gl) {
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
+    gl.clearColor(0.0, 1.0, 1.0, 1.0);  // Clear to cyan, fully opaque
     gl.clearDepth(1.0);                 // Clear everything
     gl.enable(gl.DEPTH_TEST);           // Enable depth testing
     gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
@@ -294,20 +294,18 @@ function initShaders() {
 //
 // getShader
 //
-// Loads a shader program by scouring the current document,
-// looking for a script with the specified ID.
+// Loads the shader program from the (script) element
+// specified by `id`.
 //
 function getShader(gl, id) {
   var shaderScript = document.getElementById(id);
 
-  // Didn't find an element with the specified ID; abort.
-
   if (!shaderScript) {
+    // id not found.
     return null;
   }
 
-  // Walk through the source element's children, building the
-  // shader source string.
+  // Get the shader source from the element's children.
 
   var theSource = "";
   var currentChild = shaderScript.firstChild;
@@ -316,12 +314,10 @@ function getShader(gl, id) {
     if (currentChild.nodeType == 3) {
       theSource += currentChild.textContent;
     }
-
     currentChild = currentChild.nextSibling;
   }
 
-  // Now figure out what type of shader script we have,
-  // based on its MIME type.
+  // Derive GL shader type from MIME type.
 
   var shader;
 
@@ -333,16 +329,11 @@ function getShader(gl, id) {
     return null;  // Unknown shader type
   }
 
-  // Send the source to the shader object
-
-  gl.shaderSource(shader, theSource);
-
   // Compile the shader program
-
+  gl.shaderSource(shader, theSource);
   gl.compileShader(shader);
 
   // See if it compiled successfully
-
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
     alert("An error occurred compiling the shaders: " + gl.getShaderInfoLog(shader));
     return null;
