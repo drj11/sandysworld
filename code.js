@@ -223,7 +223,7 @@ function drawScene() {
   // Save the current matrix, then rotate before we draw.
 
   mvPushMatrix();
-  mvRotate(cubeRotation, [1, 0, 1]);
+
   mvTranslate([cubeXOffset, cubeYOffset, cubeZOffset]);
 
   // Draw the cube by binding the array buffer to the cube's vertices
