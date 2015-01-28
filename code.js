@@ -142,12 +142,12 @@ function initBuffers() {
   // for each face.
 
   var colors = [
-    [1.0,  1.0,  1.0,  1.0],    // Front face: white
-    [1.0,  0.0,  0.0,  1.0],    // Back face: red
-    [0.0,  1.0,  0.0,  1.0],    // Top face: green
-    [0.0,  0.0,  1.0,  1.0],    // Bottom face: blue
-    [1.0,  1.0,  0.0,  1.0],    // Right face: yellow
-    [1.0,  0.0,  1.0,  1.0]     // Left face: purple
+    [1.0,  1.0,  1.0,  1.0],    // z+: up: white
+    [1.0,  0.0,  0.0,  1.0],    // z-: down: red
+    [0.0,  1.0,  0.0,  1.0],    // y+: north: green
+    [0.0,  0.0,  1.0,  1.0],    // y-: south: blue
+    [1.0,  1.0,  0.0,  1.0],    // x+: east: yellow
+    [1.0,  0.0,  1.0,  1.0]     // x-: west: purple
   ];
 
   // Convert the array of colors into a table for all the vertices.
