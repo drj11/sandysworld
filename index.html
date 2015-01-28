@@ -11,9 +11,10 @@
 
     <script id="shader-fs" type="x-shader/x-fragment">
       varying lowp vec4 vColor;
+      varying highp vec3 vLighting;
 
       void main(void) {
-        gl_FragColor = vColor;
+        gl_FragColor = vec4(vColor.rgb * vLighting, vColor.a);
       }
     </script>
 
@@ -22,15 +23,36 @@
     <script id="shader-vs" type="x-shader/x-vertex">
       attribute vec3 aVertexPosition;
       attribute vec4 aVertexColor;
+      attribute vec3 aVertexNormal;
 
       uniform mat4 uMVMatrix;
       uniform mat4 uPMatrix;
+      uniform mat4 uNormalMatrix;
 
       varying lowp vec4 vColor;
+      varying highp vec3 vLighting;
 
       void main(void) {
         gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
         vColor = aVertexColor;
+        // Apply lighting effect
+
+        highp vec3 ambientLight = vec3(0.4, 0.4, 0.6);
+        ambientLight = vec3(0.1, 0.1, 0.2);
+        highp vec3 directionalLightColor = vec3(0.9, 0.9, 0.9);
+        // Specify the lighting direction in the frame of the model.
+        // Removing the matrix multiply specifies it in the
+        // frame of the camera.
+        highp vec3 directionalVector = vec3(-0.15, -0.44, 0.88);
+        directionalVector = (uNormalMatrix * vec4(directionalVector, 0.0)).xyz;
+
+        // Shouldn't this be ", 0.0)"?
+        highp vec4 transformedNormal = uNormalMatrix *
+          vec4(aVertexNormal, 1.0);
+
+        highp float directional = max(dot(transformedNormal.xyz,
+          directionalVector), 0.0);
+        vLighting = ambientLight + (directionalLightColor * directional);
       }
     </script>
   </head>

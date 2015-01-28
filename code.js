@@ -1,3 +1,7 @@
+// Inspired by
+// https://developer.mozilla.org/en-US/docs/Web/WebGL/Lighting_in_WebGL
+// et al.
+
 var canvas;
 var gl;
 
@@ -17,6 +21,7 @@ var mvMatrix;
 var shaderProgram;
 var vertexPositionAttribute;
 var vertexColorAttribute;
+var vertexNormalAttribute;
 var perspectiveMatrix;
 
 //
@@ -139,15 +144,15 @@ function initBuffers() {
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
   // Now set up the colors for the faces. We'll use solid colors
-  // for each face.
+  // for each face. They're all white.
 
   var colors = [
-    [1.0,  1.0,  1.0,  1.0],    // z+: up: white
-    [1.0,  0.0,  0.0,  1.0],    // z-: down: red
-    [0.0,  1.0,  0.0,  1.0],    // y+: north: green
-    [0.0,  0.0,  1.0,  1.0],    // y-: south: blue
-    [1.0,  1.0,  0.0,  1.0],    // x+: east: yellow
-    [1.0,  0.0,  1.0,  1.0]     // x-: west: purple
+    [1.0,  1.0,  1.0,  1.0],    // z+: up
+    [1.0,  1.0,  1.0,  1.0],    // z-: down
+    [1.0,  1.0,  1.0,  1.0],    // y+: north
+    [1.0,  1.0,  1.0,  1.0],    // y-: south
+    [1.0,  1.0,  1.0,  1.0],    // x+: east
+    [1.0,  1.0,  1.0,  1.0]     // x-: west
   ];
 
   // Convert the array of colors into a table for all the vertices.
@@ -318,6 +323,9 @@ drawCube = function() {
   gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesColorBuffer);
   gl.vertexAttribPointer(vertexColorAttribute, 4, gl.FLOAT, false, 0, 0);
 
+  gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesNormalBuffer)
+  gl.vertexAttribPointer(vertexNormalAttribute, 3, gl.FLOAT, false, 0, 0)
+
   // Draw the cube.
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVerticesIndexBuffer);
@@ -350,11 +358,17 @@ function initShaders() {
 
   gl.useProgram(shaderProgram);
 
-  vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+  vertexPositionAttribute = gl.getAttribLocation(shaderProgram,
+    "aVertexPosition");
   gl.enableVertexAttribArray(vertexPositionAttribute);
 
-  vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
+  vertexColorAttribute = gl.getAttribLocation(shaderProgram,
+    "aVertexColor");
   gl.enableVertexAttribArray(vertexColorAttribute);
+
+  vertexNormalAttribute = gl.getAttribLocation(shaderProgram,
+    "aVertexNormal")
+  gl.enableVertexAttribArray(vertexNormalAttribute)
 }
 
 //
@@ -430,6 +444,12 @@ function setMatrixUniforms() {
 
   var mvUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
   gl.uniformMatrix4fv(mvUniform, false, new Float32Array(mvMatrix.flatten()));
+
+  var normalMatrix = mvMatrix.inverse();
+  normalMatrix = normalMatrix.transpose();
+  var nUniform = gl.getUniformLocation(shaderProgram, "uNormalMatrix");
+  gl.uniformMatrix4fv(nUniform, false, new
+        Float32Array(normalMatrix.flatten()));
 }
 
 var mvMatrixStack = [];
