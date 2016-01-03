@@ -18,20 +18,37 @@ var perspectiveMatrix;
 
 // "Global" game state.
 var the = {
-    cameraPos: [3,-8,7],
+    cameraHeight: 7,
+    cursorPos: [3, 2, 0],
     moveLeft: function() {
-      the.cameraPos[0] -= 1
+      the.cursorPos[0] -= 1
     },
     moveDown: function() {
-      the.cameraPos[2] -= 1
+      the.cameraHeight -= 1
     },
     moveUp: function() {
-      the.cameraPos[2] += 1
+      the.cameraHeight += 1
     },
     moveRight: function() {
-      the.cameraPos[0] += 1
+      the.cursorPos[0] += 1
+    },
+    editCell: function() {
+      var xSize = the.grid[0].length
+      var ySize = the.grid.length
+      var x = the.cursorPos[0]
+      var y = the.cursorPos[1]
+      if(!(0 <= x && x < xSize &&
+        0 <= y && y < ySize)) {
+        return
+      }
+      the.grid[y][x] = 1 - the.grid[y][x]
     },
 }
+the.grid = [[0, 0, 0, 0, 0, 1, 1],
+            [1, 1, 0, 1, 0, 0, 1],
+            [1, 1, 0, 1, 1, 0, 0],
+            [0, 1, 0, 0, 0, 0, 1],
+           ]
 
 //
 // start
@@ -79,6 +96,9 @@ function keypress(e) {
   }
   if(e.key == "l"){
     the.moveRight()
+  }
+  if(e.key == "x") {
+    the.editCell()
   }
 }
 
@@ -293,25 +313,19 @@ function drawScene() {
   // mvTranslate([-3.0, -2.0, -10.0]);
 
 
-  var pos = the.cameraPos
-  var camM = makeLookAt(pos[0], pos[1], pos[2],
-    pos[0], pos[1]+10, 0,
+  var pos = the.cursorPos
+  var camM = makeLookAt(pos[0], pos[1]-10, the.cameraHeight,
+    pos[0], pos[1], 0,
     0, 0, 1)
   multMatrix(camM)
 
-
-  var theGrid = [[0, 0, 0, 0, 0, 1, 1],
-                 [1, 1, 0, 1, 0, 0, 1],
-                 [1, 1, 0, 1, 1, 0, 0],
-                 [0, 1, 0, 0, 0, 0, 1],
-                ]
-  var xSize = theGrid[0].length
-  var ySize = theGrid.length
+  var xSize = the.grid[0].length
+  var ySize = the.grid.length
 
   var y, x
   for(y=0; y<ySize; ++y) {
     for(x=0; x<xSize; ++x) {
-      var cube = theGrid[y][x]
+      var cube = the.grid[y][x]
       if(!cube) {
         continue
       }
