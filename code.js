@@ -16,40 +16,48 @@ var vertexColorAttribute;
 var vertexNormalAttribute;
 var perspectiveMatrix;
 
-// "Global" game state.
-var the = {
-    cameraHeight: 7,
-    cursorPos: [3, 2, 0],
+// Game state.
+
+// constructor
+function Game() {
+  this.cameraHeight = 7
+  this.cursorPos = [3, 2, 0]
+}
+
+Game.prototype = {
     moveLeft: function() {
-      the.cursorPos[0] -= 1
+      this.cursorPos[0] -= 1
     },
     moveRight: function() {
-      the.cursorPos[0] += 1
+      this.cursorPos[0] += 1
     },
     moveForward: function() {
-      the.cursorPos[1] += 1
+      this.cursorPos[1] += 1
     },
     moveBack: function() {
-      the.cursorPos[1] -= 1
+      this.cursorPos[1] -= 1
     },
     moveDown: function() {
-      the.cameraHeight -= 1
+      this.cameraHeight -= 1
     },
     moveUp: function() {
-      the.cameraHeight += 1
+      this.cameraHeight += 1
     },
     editCell: function() {
-      var xSize = the.grid[0].length
-      var ySize = the.grid.length
-      var x = the.cursorPos[0]
-      var y = the.cursorPos[1]
+      var xSize = this.grid[0].length
+      var ySize = this.grid.length
+      var x = this.cursorPos[0]
+      var y = this.cursorPos[1]
       if(!(0 <= x && x < xSize &&
         0 <= y && y < ySize)) {
         return
       }
-      the.grid[y][x] = 1 - the.grid[y][x]
+      this.grid[y][x] = 1 - this.grid[y][x]
     },
 }
+
+the = new Game()
+
 the.grid = [[0, 0, 0, 0, 0, 1, 1],
             [1, 1, 0, 1, 0, 0, 1],
             [1, 1, 0, 1, 1, 0, 0],
