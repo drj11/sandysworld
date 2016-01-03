@@ -276,7 +276,9 @@ function drawScene() {
       if(!cube) {
         continue
       }
-      var offset = [x, y, 0]
+      var xPitch = 1.0
+      var yPitch = 1.0
+      var offset = [x*xPitch, y*yPitch, 0]
 
       // Save the current matrix, before drawing each object.
       mvPushMatrix();
