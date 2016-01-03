@@ -16,6 +16,11 @@ var vertexColorAttribute;
 var vertexNormalAttribute;
 var perspectiveMatrix;
 
+// "Global" game state.
+var the = {
+    cameraPos: [3,-8,7]
+}
+
 //
 // start
 //
@@ -257,7 +262,12 @@ function drawScene() {
   // Draw objects in front of the camera.
 
   // mvTranslate([-3.0, -2.0, -10.0]);
-  var camM = makeLookAt(3, -8, 8, 3, 3, 0, 0, 0, 1)
+
+
+  var pos = the.cameraPos
+  var camM = makeLookAt(pos[0], pos[1], pos[2],
+    pos[0], pos[1]+10, 0,
+    0, 0, 1)
   multMatrix(camM)
 
 
