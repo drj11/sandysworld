@@ -19,8 +19,7 @@ var perspectiveMatrix;
 //
 // start
 //
-// Called when the canvas is created to get the ball rolling.
-//
+// Called via the body's onload() script.
 function start() {
   canvas = document.getElementById("glcanvas");
 
@@ -32,15 +31,14 @@ function start() {
     gl.clearColor(0.0, 1.0, 1.0, 1.0);  // Clear to cyan, fully opaque
     gl.clearDepth(1.0);                 // Clear everything
     gl.enable(gl.DEPTH_TEST);           // Enable depth testing
-    gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
+    gl.depthFunc(gl.LEQUAL);            // Near things obscure far
 
     // Initialize the shaders; this is where all the lighting for the
     // vertices and so forth is established.
 
     initShaders();
 
-    // Here's where we call the routine that builds all the objects
-    // we'll be drawing.
+    // Build all the objects we'll be drawing.
 
     initBuffers();
 
@@ -228,7 +226,7 @@ function initBuffers() {
     20, 21, 22,     20, 22, 23    // left
   ]
 
-  // Now send the element array to GL
+  // Send the element array to GL
 
   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
       new Uint16Array(cubeVertexIndices), gl.STATIC_DRAW);
@@ -407,7 +405,8 @@ function getShader(gl, id) {
 
   // See if it compiled successfully
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    alert("An error occurred compiling the shaders: " + gl.getShaderInfoLog(shader));
+    alert("An error occurred compiling the shaders: " +
+      gl.getShaderInfoLog(shader));
     return null;
   }
 
