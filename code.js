@@ -23,14 +23,20 @@ var the = {
     moveLeft: function() {
       the.cursorPos[0] -= 1
     },
+    moveRight: function() {
+      the.cursorPos[0] += 1
+    },
+    moveForward: function() {
+      the.cursorPos[1] += 1
+    },
+    moveBack: function() {
+      the.cursorPos[1] -= 1
+    },
     moveDown: function() {
       the.cameraHeight -= 1
     },
     moveUp: function() {
       the.cameraHeight += 1
-    },
-    moveRight: function() {
-      the.cursorPos[0] += 1
     },
     editCell: function() {
       var xSize = the.grid[0].length
@@ -89,13 +95,19 @@ function keypress(e) {
     the.moveLeft()
   }
   if(e.key == "j"){
-    the.moveDown()
+    the.moveBack()
   }
   if(e.key == "k"){
-    the.moveUp()
+    the.moveForward()
   }
   if(e.key == "l"){
     the.moveRight()
+  }
+  if(e.key == "u") {
+    the.moveUp()
+  }
+  if(e.key == "n") {
+    the.moveDown()
   }
   if(e.key == "x") {
     the.editCell()
