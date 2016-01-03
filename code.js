@@ -18,7 +18,19 @@ var perspectiveMatrix;
 
 // "Global" game state.
 var the = {
-    cameraPos: [3,-8,7]
+    cameraPos: [3,-8,7],
+    moveLeft: function() {
+      the.cameraPos[0] -= 1
+    },
+    moveDown: function() {
+      the.cameraPos[2] -= 1
+    },
+    moveUp: function() {
+      the.cameraPos[2] += 1
+    },
+    moveRight: function() {
+      the.cameraPos[0] += 1
+    },
 }
 
 //
@@ -50,6 +62,23 @@ function start() {
     // Set up to draw the scene periodically.
 
     setInterval(drawScene, 50);
+  }
+  document.getElementById("body").onkeypress = keypress
+}
+
+function keypress(e) {
+  console.log(e)
+  if(e.key == "h"){
+    the.moveLeft()
+  }
+  if(e.key == "j"){
+    the.moveDown()
+  }
+  if(e.key == "k"){
+    the.moveUp()
+  }
+  if(e.key == "l"){
+    the.moveRight()
   }
 }
 
