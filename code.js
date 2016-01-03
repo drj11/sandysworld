@@ -266,12 +266,12 @@ function drawScene() {
                  [1, 1, 0, 1, 1, 0, 0],
                  [0, 1, 0, 0, 0, 0, 1],
                 ]
-  var W = theGrid[0].length
-  var H = theGrid.length
+  var xSize = theGrid[0].length
+  var ySize = theGrid.length
 
   var y, x
-  for(y=0; y<H; ++y) {
-    for(x=0; x<W; ++x) {
+  for(y=0; y<ySize; ++y) {
+    for(x=0; x<xSize; ++x) {
       var cube = theGrid[y][x]
       if(!cube) {
         continue
