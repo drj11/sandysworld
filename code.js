@@ -54,6 +54,15 @@ Game.prototype = {
       }
       this.grid[y][x] = 1 - this.grid[y][x]
     },
+    save: function() {
+      var s = ""
+      s += "https://github.com/drj11/sandysworld\n"
+      s += "Time: " + (new Date()).toISOString() + "\n"
+      s += "~\n"
+      s += gridString(this.grid)
+      var dataURL = "data:text/plain;base64," + btoa(s)
+      window.open(dataURL)
+    }
 }
 
 the = new Game()
@@ -63,6 +72,27 @@ the.grid = [[0, 0, 0, 0, 0, 1, 1],
             [1, 1, 0, 1, 1, 0, 0],
             [0, 1, 0, 0, 0, 0, 1],
            ]
+
+// Map from numeric index to tile symbol.
+gridTileMap = " #"
+
+function gridString(grid) {
+    var y, x
+    var xSize = grid[0].length
+    var ySize = grid.length
+    // grid is best viewed with y+ going "up" the page. So
+    // reverse y.
+    var s = ""
+    for(y=ySize-1; y>=0; --y) {
+      for(x=0; x<xSize; ++x) {
+        s += gridTileMap[grid[y][x]]
+      }
+      s += "\n"
+    }
+    s += "~\n"
+    return s
+}
+
 
 //
 // start
@@ -119,6 +149,9 @@ function keypress(e) {
   }
   if(e.key == "x") {
     the.editCell()
+  }
+  if(e.key == "s") {
+    the.save()
   }
 }
 
