@@ -44,15 +44,25 @@ Game.prototype = {
       this.cameraHeight += 1
     },
     editCell: function() {
-      var xSize = this.grid[0].length
-      var ySize = this.grid.length
+      var zSize = this.grid.length
+      var ySize = this.grid[0].length
+      var xSize = this.grid[0][0].length
       var x = this.cursorPos[0]
       var y = this.cursorPos[1]
+      var z = this.cursorPos[2]
       if(!(0 <= x && x < xSize &&
-        0 <= y && y < ySize)) {
+        0 <= y && y < ySize &&
+        0 <= z && z < zSize)) {
         return
       }
-      this.grid[y][x] = 1 - this.grid[y][x]
+      var row = this.grid[z][y]
+      var tile = row[x]
+      if(tile == " ") {
+          tile = "#"
+      } else {
+          tile = " "
+      }
+      this.grid[z][y] = row.slice(0,x) + tile + row.slice(x+1)
     },
     save: function() {
       var s = ""
@@ -72,24 +82,24 @@ the.grid = [[0, 0, 0, 0, 0, 1, 1],
             [1, 1, 0, 1, 1, 0, 0],
             [0, 1, 0, 0, 0, 0, 1],
            ]
-
 // Map from numeric index to tile symbol.
 gridTileMap = " #"
 
 function gridString(grid) {
-    var y, x
-    var xSize = grid[0].length
-    var ySize = grid.length
+    var z, y, x
+    var zSize = grid.length
+    var ySize = grid[0].length
+    var xSize = grid[0][0].length
     // grid is best viewed with y+ going "up" the page. So
     // reverse y.
     var s = ""
-    for(y=ySize-1; y>=0; --y) {
-      for(x=0; x<xSize; ++x) {
-        s += gridTileMap[grid[y][x]]
+    for(z=0; z<zSize; ++z) {
+      for(y=ySize-1; y>=0; --y) {
+        s += grid[z][y]
+        s += "\n"
       }
-      s += "\n"
+      s += "~\n"
     }
-    s += "~\n"
     return s
 }
 
@@ -99,6 +109,8 @@ function gridString(grid) {
 //
 // Called via the body's onload() script.
 function start() {
+  the.grid = grid
+
   canvas = document.getElementById("glcanvas");
 
   initWebGL(canvas);      // Initialize the GL context
@@ -372,27 +384,31 @@ function drawScene() {
     0, 0, 1)
   multMatrix(camM)
 
-  var xSize = the.grid[0].length
-  var ySize = the.grid.length
+  var zSize = the.grid.length
+  var ySize = the.grid[0].length
+  var xSize = the.grid[0][0].length
 
-  var y, x
-  for(y=0; y<ySize; ++y) {
-    for(x=0; x<xSize; ++x) {
-      var cube = the.grid[y][x]
-      if(!cube) {
-        continue
+  var z, y, x
+  for(z=0; z<zSize; ++z) {
+    for(y=0; y<ySize; ++y) {
+      for(x=0; x<xSize; ++x) {
+        var tile = the.grid[z][y][x]
+        if(tile == " ") {
+          continue
+        }
+        var xPitch = 1.0
+        var yPitch = 1.0
+        var zPitch = 1.0
+        var offset = [x*xPitch, y*yPitch, z*zPitch]
+
+        // Save the current matrix, before drawing each object.
+        mvPushMatrix();
+        mvTranslate(offset);
+
+        drawCube()
+        // Restore the original matrix
+        mvPopMatrix();
       }
-      var xPitch = 1.0
-      var yPitch = 1.0
-      var offset = [x*xPitch, y*yPitch, 0]
-
-      // Save the current matrix, before drawing each object.
-      mvPushMatrix();
-      mvTranslate(offset);
-
-      drawCube()
-      // Restore the original matrix
-      mvPopMatrix();
     }
   }
 
