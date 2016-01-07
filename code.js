@@ -356,12 +356,11 @@ function drawScene() {
 
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  // Establish the perspective with which we want to view the
-  // scene. Our field of view is 45 degrees, with a width/height
-  // ratio of 640:480, and we only want to see objects between 0.1 units
-  // and 100 units away from the camera.
-
-  perspectiveMatrix = makePerspective(45, 640.0/480.0, 0.1, 100.0);
+  // Projection Matrix. Orthographic.
+  var aspect = 640.0/480.0
+  // Half height.
+  var hh = 8
+  perspectiveMatrix = makeOrtho(-hh*aspect, hh*aspect, -hh, hh, 1, 20)
 
   // Set the drawing position to the "identity" point, which is
   // the center of the scene.
