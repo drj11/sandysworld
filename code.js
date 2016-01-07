@@ -77,11 +77,6 @@ Game.prototype = {
 
 the = new Game()
 
-the.grid = [[0, 0, 0, 0, 0, 1, 1],
-            [1, 1, 0, 1, 0, 0, 1],
-            [1, 1, 0, 1, 1, 0, 0],
-            [0, 1, 0, 0, 0, 0, 1],
-           ]
 // Map from numeric index to tile symbol.
 gridTileMap = " #"
 
