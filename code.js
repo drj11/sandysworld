@@ -21,6 +21,10 @@ var perspectiveMatrix;
 // constructor
 function Game() {
   this.cameraHeight = 7
+  // Direction vector from nominal [0,0]
+  // on XY plane to camera. Not required to
+  // be normalised.
+  this.cameraVector = [-1, -1]
   this.cursorPos = [3, 2, 0]
 }
 
@@ -42,6 +46,22 @@ Game.prototype = {
     },
     moveUp: function() {
       this.cameraHeight += 1
+    },
+    // Set Camera angle to a diagonal in
+    // one of the four quadrants.
+    cameraAngle: function(a) {
+      if(a == 1) {
+        this.cameraVector = [1, 1]
+      }
+      if(a == 2) {
+        this.cameraVector = [-1, 1]
+      }
+      if(a == 3) {
+        this.cameraVector = [-1, -1]
+      }
+      if(a == 4) {
+        this.cameraVector = [1, -1]
+      }
     },
     editCell: function() {
       var zSize = this.grid.length
@@ -136,6 +156,7 @@ function start() {
 
 function keypress(e) {
   console.log(e)
+  // Moving
   if(e.key == "h"){
     the.moveLeft()
   }
@@ -148,12 +169,17 @@ function keypress(e) {
   if(e.key == "l"){
     the.moveRight()
   }
+  // Camera
   if(e.key == "u") {
     the.moveUp()
   }
   if(e.key == "n") {
     the.moveDown()
   }
+  if(1 <= (0|e.key) && (0|e.key) <= 4) {
+    the.cameraAngle(0|e.key)
+  }
+  // Editing
   if(e.key == "x") {
     the.editCell()
   }
@@ -373,7 +399,13 @@ function drawScene() {
 
 
   var pos = the.cursorPos
-  var camM = makeLookAt(pos[0], pos[1]-10, the.cameraHeight,
+  var camV = the.cameraVector.concat([0])
+  camV = $V(camV)
+  var cameraDistance = 10
+  camV = camV.multiply(cameraDistance)
+  camV = camV.add($V([pos[0], pos[1], the.cameraHeight]))
+  var e = camV.elements
+  var camM = makeLookAt(e[0], e[1], e[2],
     pos[0], pos[1], 0,
     0, 0, 1)
   multMatrix(camM)
