@@ -20,7 +20,7 @@ var perspectiveMatrix;
 
 // constructor
 function Game() {
-  this.cameraHeight = 7
+  this.cameraHeight = 10
   // Direction vector from nominal [0,0]
   // on XY plane to camera. Not required to
   // be normalised.
