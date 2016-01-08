@@ -125,6 +125,8 @@ function gridString(grid) {
 // Called via the body's onload() script.
 function start() {
   the.grid = grid
+  var xSize = the.grid[0][0].length
+  the.cursorPos[0] = 0|(xSize*0.44)
 
   canvas = document.getElementById("glcanvas");
 
