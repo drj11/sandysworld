@@ -386,7 +386,7 @@ function drawScene() {
   var aspect = 640.0/480.0
   // Half height.
   var hh = 8
-  perspectiveMatrix = makeOrtho(-hh*aspect, hh*aspect, -hh, hh, 1, 20)
+  perspectiveMatrix = makeOrtho(-hh*aspect, hh*aspect, -hh, hh, -40, 200)
 
   // Set the drawing position to the "identity" point, which is
   // the center of the scene.
