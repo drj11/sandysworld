@@ -439,16 +439,6 @@ function drawScene() {
     }
   }
 
-  mvPushMatrix()
-  gl.disable(gl.DEPTH_TEST)
-  mvTranslate([2, 2, 0])
-  // drawCube()
-  gl.enable(gl.DEPTH_TEST)
-  mvPopMatrix()
-
-  // Update the rotation for the next draw, if it's time to do so.
-  // physics()
-
   var currentTime = (new Date).getTime();
 }
 
