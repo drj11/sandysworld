@@ -411,6 +411,8 @@ function drawScene() {
 
   // Draw all the tiles
 
+  setupCube()
+
   var zSize = the.grid.length
   var ySize = the.grid[0].length
   var xSize = the.grid[0][0].length
@@ -442,7 +444,8 @@ function drawScene() {
   var currentTime = (new Date).getTime();
 }
 
-drawCube = function() {
+// setup various arrays for cube.
+setupCube = function() {
   // Draw the cube by binding the array buffer to the cube's vertices
   // array, setting attributes, and pushing it to GL.
 
@@ -456,9 +459,10 @@ drawCube = function() {
 
   gl.bindBuffer(gl.ARRAY_BUFFER, cubeVerticesNormalBuffer)
   gl.vertexAttribPointer(vertexNormalAttribute, 3, gl.FLOAT, false, 0, 0)
+}
 
-  // Draw the cube.
-
+// Draw the cube.
+function drawCube() {
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVerticesIndexBuffer);
   setMatrixUniforms();
   gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
