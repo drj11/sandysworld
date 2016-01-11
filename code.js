@@ -395,10 +395,7 @@ function drawScene() {
 
   loadIdentity();
 
-  // Draw objects in front of the camera.
-
-  // mvTranslate([-3.0, -2.0, -10.0]);
-
+  // Position the camera
 
   var pos = the.cursorPos
   var camV = the.cameraVector.concat([0])
@@ -411,6 +408,8 @@ function drawScene() {
     pos[0], pos[1], 0,
     0, 0, 1)
   multMatrix(camM)
+
+  // Draw all the tiles
 
   var zSize = the.grid.length
   var ySize = the.grid[0].length
