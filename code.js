@@ -5,10 +5,6 @@
 var canvas;
 var gl;
 
-var cubeVerticesBuffer;
-var cubeVerticesColorBuffer;
-var cubeVerticesIndexBuffer;
-
 var mvMatrix;
 var shaderProgram;
 var vertexPositionAttribute;
